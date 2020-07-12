@@ -1,0 +1,110 @@
+{
+	"CS_SEXO": [
+		1
+	],
+	"NU_IDADE_N": [
+		15
+	],
+	"CS_RACA": [
+		2.0
+	],
+	"CS_ESCOL_N": [
+		2.0
+	],
+	"SG_UF": [
+		"MG"
+	],
+	"CS_ZONA": [
+		2
+	],
+	"SURTO_SG": [
+		2.0
+	],
+	"AVE_SUINO": [
+		2.0
+	],
+	"FEBRE": [
+		1.0
+	],
+	"TOSSE": [
+		2.0
+	],
+	"GARGANTA": [
+		2.0
+	],
+	"DISPNEIA": [
+		1.0
+	],
+	"DESC_RESP": [
+		1.0
+	],
+	"SATURACAO": [
+		1.0
+	],
+	"DIARREIA": [
+		1.0
+	],
+	"VOMITO": [
+		1.0
+	],
+	"OUTRO_SIN": [
+		1.0
+	],
+	"PUERPERA": [
+		1.0
+	],
+	"CARDIOPATI": [
+		2.0
+	],
+	"HEMATOLOGI": [
+		2.0
+	],
+	"SIND_DOWN": [
+		2.0
+	],
+	"HEPATICA": [
+		2.0
+	],
+	"ASMA": [
+		1.0
+	],
+	"DIABETES": [
+		1.0
+	],
+	"NEUROLOGIC": [
+		2.0
+	],
+	"PNEUMOPATI": [
+		2.0
+	],
+	"IMUNODEPRE": [
+		2.0
+	],
+	"RENAL": [
+		2.0
+	],
+	"OBESIDADE": [
+		2.0
+	],
+	"OUT_MORBI": [
+		1
+	],
+	"VACINA": [
+		2.0
+	],
+	"RAIOX_RES": [
+		3.0
+	],
+	"IF_RESUL": [
+		9.0
+	],
+	"PCR_RESUL": [
+		2.0
+	],
+	"CLASSI_FIN": [
+		4.0
+	],
+	"CRITERIO": [
+		1.0
+	]
+}

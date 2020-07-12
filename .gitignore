@@ -1,0 +1,11 @@
+__pycache__
+.ipynb_checkpoints
+frontend/node_modules
+frontend/package-lock.json
+.vscode
+
+# download on https://opendatasus.saude.gov.br/dataset/bd-srag-2020
+INFLUD-07-07-2020.csv
+
+# generate with preprocessamento_e_modelagem.ipynb
+data_V1.csv

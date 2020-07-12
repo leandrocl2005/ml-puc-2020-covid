@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap 4 Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        /* The container */
+        .radio-container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default radio button */
+        .radio-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Create a custom radio button */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+            border-radius: 50%;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .radio-container:hover input~.checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the radio button is checked, add a blue background */
+        .radio-container input:checked~.checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the indicator (the dot/circle - hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the indicator (dot/circle) when checked */
+        .radio-container input:checked~.checkmark:after {
+            display: block;
+        }
+
+        /* Style the indicator (dot/circle) */
+        .radio-container .checkmark:after {
+            top: 9px;
+            left: 9px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+        .custom-cards-container {
+            margin: 32px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 4px;
+        }
+        .custom-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="/">Previsão de tempo de UTI</a>
+    </nav>
+
+    <div class="container" style="margin-top:23px">
+
+        {% if result %}
+        <hr>
+            <div class="row">
+                <div class="col">
+                    <h2>Resultado da última pesquisa:</h2>
+                    <h3>Previsão de tempo na UTI: {{result|round(4)}} dias</h3>
+                </div>
+            </div>
+        <hr>
+        {% endif %}
+
+        <p>Para prever o tempo que o paciente pode ficar na UTI, preencha os dados abaixo:</p>
+        
+        <form action="/" method="POST">
+            <div class="custom-cards-container">
+                <div class="form-group">
+                    <label for="CS_RACA" class="custom-label">Raça/Cor:</label>
+                    <select class="form-control" id="CS_RACA" name="CS_RACA">
+                        <option value="1">Branca</option>
+                        <option value="2">Preta</option>
+                        <option value="3">Amarela</option>
+                        <option value="4">Parda</option>
+                        <option value="5">Indígena</option>
+                        <option value="9">Ignorar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="CS_ESCOL_N" class="custom-label">Escolaridade:</label>
+                    <select class="form-control" id="CS_ESCOL_N" name="CS_ESCOL_N">
+                        <option value="0">Sem escolaridade</option>
+                        <option value="1">Fundamental 1º ciclo (1ª a 5ª série)</option>
+                        <option value="2">Fundamental 2º ciclo (6ª a 9ª série)</option>
+                        <option value="3">Médio (1º ao 3º ano)</option>
+                        <option value="4">Superior</option>
+                        <option value="5">Não se aplica</option>
+                        <option value="9">Ignorar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="SG_UF" class="custom-label">Estado:</label>
+                    <select class="form-control" id="SG_UF" name="SG_UF">
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="NU_IDADE_N" class="custom-label">Idade:</label><br>
+                    <input type="text" name="NU_IDADE_N"  class="form-control" required>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Sexo:</h4>
+                        <label class="radio-container">F
+                            <input type="radio" name="CS_SEXO" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">M
+                            <input type="radio" name="CS_SEXO" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Outro
+                            <input type="radio" name="CS_SEXO" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Zona:</h4>
+                        <label class="radio-container">Urbana
+                            <input type="radio" name="CS_ZONA" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Rural
+                            <input type="radio" name="CS_ZONA" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Periurbana
+                            <input type="radio" name="CS_ZONA" value="3" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Trabalha ou tem contados com aves ou suínos?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="AVE_SUINO" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="AVE_SUINO" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="AVE_SUINO" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Saturação O2 &lt; .95?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="SATURACAO" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="SATURACAO" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="SATURACAO" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Doença renal?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="RENAL" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="RENAL" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="RENAL" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Asma?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="ASMA" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="ASMA" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="ASMA" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Tosse?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="TOSSE" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="TOSSE" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="TOSSE" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Dor de garganta?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="GARGANTA" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="GARGANTA" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="GARGANTA" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Diarréia?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="DIARREIA" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="DIARREIA" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="DIARREIA" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Vômitos?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="VOMITO" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="VOMITO" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="VOMITO" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Dispnéia?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="DISPNEIA" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="DISPNEIA" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="DISPNEIA" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Sindrome de Down?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="SIND_DOWN" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="SIND_DOWN" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="SIND_DOWN" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Diabetes mellitus?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="DIABETES" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="DIABETES" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="DIABETES" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Imunodepressão ou imunodeficiência?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="IMUNODEPRE" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="IMUNODEPRE" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="IMUNODEPRE" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Obesidade?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="OBESIDADE" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="OBESIDADE" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="OBESIDADE" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Doença neurológica?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="NEUROLOGIC" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="NEUROLOGIC" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="NEUROLOGIC" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Pneumopatia crônica?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="PNEUMOPATI" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="PNEUMOPATI" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="PNEUMOPATI" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Doença cardiovascular crônica?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="CARDIOPATI" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="CARDIOPATI" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="CARDIOPATI" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Doença hematológica crônica?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="HEMATOLOGI" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="HEMATOLOGI" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="HEMATOLOGI" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Doença hepática crônica?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="HEPATICA" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="HEPATICA" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="HEPATICA" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Vacinou contra gripe ná última campanha?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="VACINA" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="VACINA" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="VACINA" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Proveniente de surto de SG?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="SURTO_SG" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="SURTO_SG" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="SURTO_SG" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Outros fatores de risco?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="OUT_MORBI" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="OUT_MORBI" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="OUT_MORBI" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Outro sintoma?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="OUTRO_SIN" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="OUTRO_SIN" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="OUTRO_SIN" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="RAIOX_RES" class="custom-label">Resultado do raio-x de tórax:</label>
+                    <select class="form-control" id="RAIOX_RES" name="RAIOX_RES">
+                        <option value="1">Normal</option>
+                        <option value="2">Infiltrado intersticial</option>
+                        <option value="3">Consolidação</option>
+                        <option value="4">Misto</option>
+                        <option value="5">Outro</option>
+                        <option value="6">Não realizado</option>
+                        <option value="9">Ignorado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="IF_RESUL" class="custom-label">Resultado da Imunofluorescência:</label>
+                    <select class="form-control" id="IF_RESUL" name="IF_RESUL">
+                        <option value="1">Positivo</option>
+                        <option value="2">Negativo</option>
+                        <option value="3">Inconclusivo</option>
+                        <option value="4">Não Realizado</option>
+                        <option value="5">Aguardando</option>
+                        <option value="9">Ignorado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="PCR_RESUL" class="custom-label">Resultado do RT/PCR:</label>
+                    <select class="form-control" id="PCR_RESUL" name="PCR_RESUL">
+                        <option value="1">Detectável</option>
+                        <option value="2">Não Detectável</option>
+                        <option value="3">Inconclusivo</option>
+                        <option value="4">Não Realizado</option>
+                        <option value="5">Aguardando</option>
+                        <option value="9">Ignorado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="CLASSI_FIN" class="custom-label">Diagnóstico final:</label>
+                    <select class="form-control" id="CLASSI_FIN" name="CLASSI_FIN">
+                        <option value="1">SRAG por influenza</option>
+                        <option value="2">SRAG por outro vírus respiratório</option>
+                        <option value="3">SRAG por outro agente Etiológico</option>
+                        <option value="4">SRAG não especificado</option>
+                        <option value="5">COVID-19 </option>
+                    </select>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Desconforto respiratório?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="DESC_RESP" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="DESC_RESP" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="DESC_RESP" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Febre?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="FEBRE" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="FEBRE" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="FEBRE" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Puérpera ou parturienteo?</h4>
+                        <label class="radio-container">SIM
+                            <input type="radio" name="PUERPERA" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">NÃO
+                            <input type="radio" name="PUERPERA" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Não sei
+                            <input type="radio" name="PUERPERA" value="9" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Critério de confirmação?</h4>
+                        <label class="radio-container">Laboratorial
+                            <input type="radio" name="CRITERIO" value="1" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Vinculo Epidemiológico
+                            <input type="radio" name="CRITERIO" value="2" >
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">Clínico
+                            <input type="radio" name="CRITERIO" value="3" >
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>    
+
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
