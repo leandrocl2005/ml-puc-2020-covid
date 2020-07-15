@@ -24,13 +24,13 @@ Criar um aplicativoqAPI que dadas informações do paciente, preveja o tempo que
     - Resultou se mais de 668 colunas, necessário usar redução de dimensão  
 - Imputação:
     - Para features categóricas utilizou-se a moda (default da biblioteca pycaret)
-    - Para features numéricas utilizzou-se a média (default da biblioteca pycaret)
+    - Para features numéricas utilizou-se a média (default da biblioteca pycaret)
 - Normalização:
     - Utilizou-se zscore para normalização dos dados
 - Redução de dimensão:
-    - Utilizou-se a técnica de análise das componentes principais (PCA) linear com 90% de representatividade dos dados.
+    - Utilizou-se a técnica de análise das componentes principais (PCA) linear com componentes suficientes para 90% de representatividade dos dados. Ao final trabalhou-se com 45 componentes.
 - Balanceamento:
-    - Por ser uma tarefa de regressão, não há necessidade de balancear a variável de interesse. 
+    - Por ser uma tarefa de regressão, a técnica mais indicada é a [SMOGN](http://proceedings.mlr.press/v74/branco17a/branco17a.pdf). Após utilizar a implementação em Python da técnica, não houve uma melhora significativa nos resultados. Dessa forma, optou-se por deixar o trabalho mais simples omitindo a técnica na apresentação.
 
 ## Escolha do modelo
 - Testou-se 21 modelos utilizando as métricas MAE (erro absoluto médio), MSE (erro quadrático médio), RMSE (raíz do erro quadratico médio),	R2 (r2-score), RMSLE (log da raiz do erro quadrático médio) e MAPE (porcentagem absoluta média do erro) obtidas após uma validação cruzada com 10 folds.
@@ -41,7 +41,7 @@ Criar um aplicativoqAPI que dadas informações do paciente, preveja o tempo que
 
 
 ## (Validação) Como medirá a qualidade?
-- A qualidade será medida de acordo com o desempenho do modelo no conjunto de teste (30% das amostras), separado inicialmente.
+- A qualidade será medida de acordo com o desempenho do modelo no conjunto de teste (30% das amostras), separado inicialmente. Para escolha do modelo foram utilizadas validações cruzadas com 10 folds.
 
 ## Overfitting
 Para evitar overfitting, separou-se 30% os dados para teste do modelo.
@@ -59,14 +59,14 @@ Não foram usadas técnicas de text mining.
 - i7-7500U 2.7GHz 2.9GHz 8GB RAM WINDOWS 10
 
 ## Sistema analítico
-O sistema não será analítico.
+O sistema oferece em protótipo uma API para extração automatizada de informações, bem como uma interface para checagem iterativa, manual e individual de perfis de pacientes. Não foi gerado um sistema analítico, mas de posse das características dos pacientes de determinado hostpital, é possivel através da API prever tempos de pacientes em UTI, planejar processos e administrar recursos.
 
 ## Preparação do ambiente
 ```bash
 conda create -n myvenv
 conda install -c anaconda jupyter
-conda install -c anaconda [pandas](https://pandas.pydata.org/)
-pip install [pycaret](https://pycaret.org/)
+conda install -c anaconda pandas
+pip install pycaret
 conda install -c anaconda flask
 git clone https://github.com/leandrocl2005/ml-puc-2020-covid.git
 cd ml-puc-2020-covid
@@ -103,4 +103,5 @@ Frontend roda na porta 8000. Basta ir no navegador e digitar `http://localhost:8
 ## Referências
 - https://pycaret.org/
 - https://opendatasus.saude.gov.br/dataset/bd-srag-2020
+- Branco, P., Torgo, L., Ribeiro, R. (2017). "SMOGN: A Pre-Processing Approach for Imbalanced Regression". Proceedings of Machine Learning Research, 74:36-50.http://proceedings.mlr.press/v74/branco17a/branco17a.pdf
 
